@@ -6,6 +6,7 @@ import { PoolCard } from './components/PoolCard';
 import { AddPoolModal } from './components/AddPoolModal'; // Import AddPoolModal
 import { pools as initialPools } from './data/pools'; // Import initial pools
 import { Pool, FilterOptions } from './types/pool';
+import { Footer } from './components/Footer';
 
 function App() {
   const [filters, setFilters] = useState<FilterOptions>({
@@ -91,6 +92,7 @@ function App() {
           <p>No pools match your filters.</p>
         )}
       </div>
+      <Footer />
     </div>
   );
 }
