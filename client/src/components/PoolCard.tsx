@@ -119,9 +119,8 @@ export function PoolCard({ pool, onViewDetails }: PoolCardProps) {
         <div className="text-2xl font-bold text-sky-600">
           {formatPrice(pool.price)}
         </div>
-        <Button 
+        <Button variant={"link"}
           onClick={() => onViewDetails(pool)}
-          className="bg-sky-500 hover:bg-sky-600"
         >
           View Details
         </Button>

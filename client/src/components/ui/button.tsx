@@ -19,7 +19,8 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+        link: "w-full max-w-[150px] text-white bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-indigo-600 hover:to-blue-500 hover:scale-[1.03] transition-all duration-300 ease-in-out shadow-md hover:shadow-xl rounded-x2",
+        veiwWork: "w-full text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-400 hover:scale-[1.03] transition-all duration-300 ease-in-out shadow-md hover:shadow-xl rounded-xl"
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

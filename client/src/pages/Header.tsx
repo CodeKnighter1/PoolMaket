@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Waves, Plus, Search } from 'lucide-react';
 
 interface HeaderProps {
@@ -32,13 +33,13 @@ function Header({ onOpenUpload, searchTerm, onSearchChange }: HeaderProps) {
               />
             </div>
 
-            <button
+            <Button variant={"veiwWork"}
               onClick={onOpenUpload}
-              className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors duration-200 w-full sm:w-auto justify-center"
+              className="flex items-center space-x-2 w-full sm:w-auto justify-center"
             >
               <Plus className="h-5 w-5" />
               <span className="sm:inline">Sell Your Pool</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>
