@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { useCreateCard } from '@/hooks/use-create-card';
 import { Waves, Plus, Search } from 'lucide-react';
 
 interface HeaderProps {
@@ -8,6 +9,9 @@ interface HeaderProps {
 }
 
 function Header({ onOpenUpload, searchTerm, onSearchChange }: HeaderProps) {
+
+  const {onOpen} = useCreateCard();
+  
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -34,7 +38,7 @@ function Header({ onOpenUpload, searchTerm, onSearchChange }: HeaderProps) {
             </div>
 
             <Button variant={"veiwWork"}
-              onClick={onOpenUpload}
+              onClick={onOpen}
               className="flex items-center space-x-2 w-full sm:w-auto justify-center"
             >
               <Plus className="h-5 w-5" />
