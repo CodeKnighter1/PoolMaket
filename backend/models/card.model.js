@@ -21,5 +21,4 @@ const cardSchema = new Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-const Card = model('Card', cardSchema);
-module.exports = Card;
+module.exports = model('Card', cardSchema);
