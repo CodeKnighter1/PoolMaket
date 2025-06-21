@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from './pages/Header';
 import Hero from './pages/Hero';
 import { PoolFilter } from './components/PoolFilter';
 import { PoolCard } from './components/PoolCard';
-import { AddPoolModal } from './components/AddPoolModal'; // Import AddPoolModal
-import { pools as initialPools } from './data/pools'; // Import initial pools
-import { Pool, FilterOptions } from './types/pool';
 import { Footer } from './components/Footer';
+import { Pool, FilterOptions } from './types/pool';
+import $api from './http/api';
+import CreateCard from './components/create-card';
+import { Button } from './components/ui/button';
 
 function App() {
   const [filters, setFilters] = useState<FilterOptions>({
@@ -17,35 +18,29 @@ function App() {
     location: '',
   });
   const [searchTerm, setSearchTerm] = useState('');
-  const [pools, setPools] = useState<Pool[]>(initialPools); // State for pools
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal
+  const [pools, setPools] = useState<Pool[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleOpenUpload = () => {
-    setIsModalOpen(true); // Open modal
+  const fetchPools = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await $api.get('/card');
+      setPools(res.data);
+    } catch (error) {
+      setError('Failed to load pools. Please check your network connection or try again later.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Close modal
-  };
-
-  const handleAddPool = (poolData: Omit<Pool, 'id' | 'createdAt'>) => {
-    const newPool: Pool = {
-      ...poolData,
-      id: crypto.randomUUID(), // Generate unique ID
-      createdAt: new Date().toISOString(), // Add timestamp
-      isFeatured: false, // Default value
-    };
-    setPools((prev) => [...prev, newPool]); // Add new pool to state
-  };
+  useEffect(() => {
+    fetchPools();
+  }, []);
 
   const handleClearFilters = () => {
-    setFilters({
-      category: '',
-      priceMin: '',
-      priceMax: '',
-      condition: '',
-      location: '',
-    });
+    setFilters({ category: '', priceMin: '', priceMax: '', condition: '', location: '' });
   };
 
   const handleViewDetails = (pool: Pool) => {
@@ -66,11 +61,7 @@ function App() {
 
   return (
     <div>
-      <Header
-        onOpenUpload={handleOpenUpload}
-        searchTerm={searchTerm}
-        onSearchChange={setSearchTerm}
-      />
+      <Header searchTerm={searchTerm} onSearchChange={setSearchTerm} />
       <Hero />
       <PoolFilter
         filters={filters}
@@ -78,20 +69,25 @@ function App() {
         onClearFilters={handleClearFilters}
         resultsCount={filteredPools.length}
       />
-      <AddPoolModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onAddPool={handleAddPool}
-      />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
-        {filteredPools.length > 0 ? (
-          filteredPools.map((pool) => (
-            <PoolCard key={pool.id} pool={pool} onViewDetails={handleViewDetails} />
+        {loading ? (
+          <p>Loading pools...</p>
+        ) : error ? (
+          <div className="text-center">
+            <p className="text-red-500">{error}</p>
+            <Button onClick={fetchPools} className="mt-4">
+              Retry
+            </Button>
+          </div>
+        ) : filteredPools.length ? (
+          filteredPools.map((pool, index) => (
+            <PoolCard key={pool.id || index} pool={pool} onViewDetails={handleViewDetails} />
           ))
         ) : (
           <p>No pools match your filters.</p>
         )}
       </div>
+      <CreateCard />
       <Footer />
     </div>
   );

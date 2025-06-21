@@ -1,5 +1,6 @@
-import { Button } from '@/components/ui/button';
-import { useCreateCard } from '@/hooks/use-create-card';
+import CreateCard from "@/components/create-card";
+import { Button } from "@/components/ui/button";
+import { useCreateCard } from "@/hooks/use-create-card";
 import { Waves, Plus, Search } from 'lucide-react';
 
 interface HeaderProps {
@@ -8,7 +9,7 @@ interface HeaderProps {
   onSearchChange: (term: string) => void;
 }
 
-function Header({ onOpenUpload, searchTerm, onSearchChange }: HeaderProps) {
+function Header({ searchTerm, onSearchChange }: HeaderProps) {
 
   const {onOpen} = useCreateCard();
   
@@ -47,6 +48,7 @@ function Header({ onOpenUpload, searchTerm, onSearchChange }: HeaderProps) {
           </div>
         </div>
       </div>
+      <CreateCard />
     </nav>
   );
 }
